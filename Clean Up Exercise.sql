@@ -60,10 +60,11 @@ percentage_laid_off, `date`,
  stage, country, funds_raised_millions) AS row_num
 FROM layoffs_staging
 )
-DELETE
+DELETE  #Failed
 FROM duplicate_cte
 WHERE row_num > 1;
 
+#Option 2
 
 CREATE TABLE `layoffs_staging2` (
   `company` text,
