@@ -1,17 +1,31 @@
 -- Exploratory Data Analysis
+-- Here we are jsut going to explore the data and find trends or patterns or anything interesting like outliers
+
+-- normally when you start the EDA process you have some idea of what you're looking for
+
+-- with this info we are just going to look around and see what we find!
 
 SELECT *
 FROM layoffs_staging2;
 
+-- EASY QUERIES
+
+
+-- Percentage on how big the layoffs were
+
 SELECT MAX(total_laid_off), MAX(percentage_laid_off)
 FROM layoffs_staging2;
 
+-- Companies which had 1 is basically 100 percent, meaning the whole company went under
 
+-- if we order by funcs_raised_millions we can see how big some of these companies were
 SELECT *
 FROM layoffs_staging2
 WHERE percentage_laid_off = 1
 ORDER BY funds_raised_millions DESC
 ;
+
+-- Companies with the most Total Layoff
 
 SELECT company, SUM(total_laid_off)
 FROM layoffs_staging2
@@ -44,6 +58,10 @@ GROUP BY  `MONTH`
 ORDER BY 1 ASC
 ;
 
+-- TOUGHER QUERIES------------------------------------------------------------------------------------------------------------------------------------
+
+
+-- Rolling Total of Layoffs Per Month
 
 WITH Rolling_Total AS
 (
@@ -66,7 +84,7 @@ ORDER BY 3 DESC
 ;
 
 
-
+-- Companies with the most Layoffs  per year. It's a little more difficult.
 WITH Company_Year (company, years, total_laid_off) AS
 (
 SELECT company, YEAR(`date`) years, SUM(total_laid_off)
